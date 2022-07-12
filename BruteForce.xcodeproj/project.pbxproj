@@ -12,7 +12,6 @@
 		ED3705DD287C5307006E7CCF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3705DC287C5307006E7CCF /* ViewController.swift */; };
 		ED3705E2287C5309006E7CCF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED3705E1287C5309006E7CCF /* Assets.xcassets */; };
 		ED3705E5287C5309006E7CCF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED3705E3287C5309006E7CCF /* LaunchScreen.storyboard */; };
-		ED3705F1287C5850006E7CCF /* ViewProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3705F0287C5850006E7CCF /* ViewProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,7 +22,6 @@
 		ED3705E1287C5309006E7CCF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ED3705E4287C5309006E7CCF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED3705E6287C5309006E7CCF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ED3705F0287C5850006E7CCF /* ViewProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewProperties.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,25 +92,8 @@
 			isa = PBXGroup;
 			children = (
 				ED3705F4287C585F006E7CCF /* Controller */,
-				ED3705F3287C585C006E7CCF /* View */,
-				ED3705F2287C5858006E7CCF /* Model */,
 			);
 			path = Scenes;
-			sourceTree = "<group>";
-		};
-		ED3705F2287C5858006E7CCF /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		ED3705F3287C585C006E7CCF /* View */ = {
-			isa = PBXGroup;
-			children = (
-				ED3705F0287C5850006E7CCF /* ViewProperties.swift */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		ED3705F4287C585F006E7CCF /* Controller */ = {
@@ -196,7 +177,6 @@
 				ED3705DD287C5307006E7CCF /* ViewController.swift in Sources */,
 				ED3705D9287C5307006E7CCF /* AppDelegate.swift in Sources */,
 				ED3705DB287C5307006E7CCF /* SceneDelegate.swift in Sources */,
-				ED3705F1287C5850006E7CCF /* ViewProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
