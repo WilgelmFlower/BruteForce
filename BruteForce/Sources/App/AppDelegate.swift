@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  BruteForce
-//
-//  Created by Mark Wilhelm on 11.07.2022.
-//
-
 import UIKit
 
 @main
