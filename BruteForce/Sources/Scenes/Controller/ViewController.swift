@@ -1,16 +1,48 @@
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UpdateInterface {
     
     //MARK: - Properties
     
+    var bruteForce = BruteForce()
+
     var isBlack: Bool = false {
         didSet { self.view.backgroundColor = isBlack ? .black : .white }
     }
     
-    var password = ""
-    
     let queue = DispatchQueue(label: "brutePassword", qos: .userInitiated)
+    
+    var labelText: UILabel = {
+        let label = UILabel()
+        label.text = "Password"
+        label.textAlignment = .center
+        label.backgroundColor = .white
+        label.textColor = .black
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+     var passwordTextField: UITextField = {
+        let text = UITextField()
+        text.isSecureTextEntry = true
+        text.layer.cornerRadius = 15.0
+        text.layer.borderWidth = 2.0
+        text.layer.borderColor = UIColor.systemBlue.cgColor
+        text.backgroundColor = .white
+        text.textColor = .black
+        text.textAlignment = .center
+        text.placeholder = "Password"
+        text.font = UIFont.systemFont(ofSize: 15)
+        text.translatesAutoresizingMaskIntoConstraints = false
+        return text
+    }()
+
+     var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.color = .systemRed
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
     
     lazy var changeColorButton: UIButton = {
         let button = UIButton()
@@ -49,13 +81,13 @@ class ViewController: UIViewController {
         let unlockPassword: String
         createBrute()
         if password.isEmpty {
-            unlockPassword = generatePassword()
-            passwordTextField.text = unlockPassword
+            unlockPassword = self.bruteForce.generatePassword()
+            self.passwordTextField.text = unlockPassword
         } else {
             unlockPassword = password
         }
         let bruteForcing = DispatchWorkItem {
-            self.bruteForce(passwordToUnlock: unlockPassword)
+            self.bruteForce.bruteForce(passwordToUnlock: unlockPassword)
         }
         queue.async(execute: bruteForcing)
     }
@@ -71,47 +103,30 @@ class ViewController: UIViewController {
         view.addSubview(activityIndicator)
         view.backgroundColor = .white
         
+        bruteForce.delegate = self
         configure()
     }
     
 //MARK: - Methods
-    
-    func createBrute() {
-        password = ""
-        passwordTextField.isSecureTextEntry = true
-        self.generatePasswordButton.isEnabled = false
-        activityIndicator.startAnimating()
-    }
-    
-    func generatePassword() -> String {
-        let characters = String().printable.map { String($0)}
-        
-        for _ in 0..<3 {
-            password += characters.randomElement() ?? ""
-        }
-        return password
-    }
-    
-    func bruteForce(passwordToUnlock: String) {
-        
-        let ALLOWED_CHARACTERS: [String] = String().printable.map { String($0) }
-        
-        var password: String = ""
-        
-        while password != passwordToUnlock {
-            password = generateBruteForce(password, fromArray: ALLOWED_CHARACTERS)
-        }
-        
+
+    func updateInterface() {
         DispatchQueue.main.async {
-            passwordTextField.isSecureTextEntry = false
-            labelText.text = password
-            activityIndicator.stopAnimating()
+            self.passwordTextField.isSecureTextEntry = false
+            self.labelText.text = self.bruteForce.password
+            self.activityIndicator.stopAnimating()
             self.generatePasswordButton.isEnabled = true
             
-            print(password)
+            print(self.bruteForce.password)
         }
-        print(password)
     }
+    
+    func createBrute() {
+        bruteForce.password = ""
+        self.passwordTextField.isSecureTextEntry = true
+        self.generatePasswordButton.isEnabled = false
+        self.activityIndicator.startAnimating()
+    }
+
     
 //MARK: - Constraints
     
