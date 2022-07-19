@@ -112,16 +112,16 @@ class ViewController: UIViewController, UpdateInterface {
     func updateInterface() {
         DispatchQueue.main.async {
             self.passwordTextField.isSecureTextEntry = false
-            self.labelText.text = self.passwordTextField.text
+            self.labelText.text = self.bruteForce.generatePassword()
+            self.passwordTextField.text = self.labelText.text
             self.activityIndicator.stopAnimating()
             self.generatePasswordButton.isEnabled = true
             
-            print(self.bruteForce.password)
+            print(self.bruteForce.generatePassword())
         }
     }
     
     func createBrute() {
-        bruteForce.password = ""
         self.passwordTextField.isSecureTextEntry = true
         self.generatePasswordButton.isEnabled = false
         self.activityIndicator.startAnimating()

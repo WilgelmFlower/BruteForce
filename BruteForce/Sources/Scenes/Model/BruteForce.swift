@@ -13,11 +13,10 @@ class BruteForce {
     
     var delegate: UpdateInterface?
     
-    var password = ""
     
     func generatePassword() -> String {
         let characters = String().printable.map { String($0)}
-        
+        var password = ""
         for _ in 0..<3 {
             password += characters.randomElement() ?? ""
         }
