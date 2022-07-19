@@ -116,11 +116,12 @@ class ViewController: UIViewController, UpdateInterface {
             self.activityIndicator.stopAnimating()
             self.generatePasswordButton.isEnabled = true
             
-            print(self.bruteForce.generatePassword())
+            print(self.bruteForce.password)
         }
     }
     
     func createBrute() {
+        bruteForce.password = ""
         self.passwordTextField.isSecureTextEntry = true
         self.generatePasswordButton.isEnabled = false
         self.activityIndicator.startAnimating()
