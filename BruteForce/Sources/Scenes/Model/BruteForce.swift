@@ -34,6 +34,7 @@ class BruteForce {
             password = generateBruteForce(password, fromArray: ALLOWED_CHARACTERS)
         }
         
+        self.password = password
         delegate?.updateInterface()
         
         print(password)

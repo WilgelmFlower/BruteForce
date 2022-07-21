@@ -1,11 +1,11 @@
 import UIKit
 
-class ViewController: UIViewController, UpdateInterface {
+class ViewController: UIViewController {
     
     //MARK: - Properties
     
     var bruteForce = BruteForce()
-
+    
     var isBlack: Bool = false {
         didSet { self.view.backgroundColor = isBlack ? .black : .white }
     }
@@ -21,8 +21,8 @@ class ViewController: UIViewController, UpdateInterface {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
-     var passwordTextField: UITextField = {
+    
+    var passwordTextField: UITextField = {
         let text = UITextField()
         text.isSecureTextEntry = true
         text.layer.cornerRadius = 15.0
@@ -36,8 +36,8 @@ class ViewController: UIViewController, UpdateInterface {
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
-
-     var activityIndicator: UIActivityIndicatorView = {
+    
+    var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .medium)
         indicator.color = .systemRed
         indicator.translatesAutoresizingMaskIntoConstraints = false
@@ -69,7 +69,6 @@ class ViewController: UIViewController, UpdateInterface {
         return button
     }()
     
-    
     //MARK: - Actions
     
     @objc func buttonChangeColor() {
@@ -79,13 +78,15 @@ class ViewController: UIViewController, UpdateInterface {
     @objc func buttonPassword() {
         let password = passwordTextField.text ?? ""
         let unlockPassword: String
-        createBrute()
+        bruteForcePrepare()
+        
         if password.isEmpty {
             unlockPassword = self.bruteForce.generatePassword()
             self.passwordTextField.text = unlockPassword
         } else {
             unlockPassword = password
         }
+        
         let bruteForcing = DispatchWorkItem {
             self.bruteForce.bruteForce(passwordToUnlock: unlockPassword)
         }
@@ -96,41 +97,33 @@ class ViewController: UIViewController, UpdateInterface {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(changeColorButton)
-        view.addSubview(generatePasswordButton)
-        view.addSubview(labelText)
-        view.addSubview(passwordTextField)
-        view.addSubview(activityIndicator)
         view.backgroundColor = .white
+        setupHierarchy()
+        setupLayout()
         
         bruteForce.delegate = self
-        configure()
     }
     
-//MARK: - Methods
-
-    func updateInterface() {
-        DispatchQueue.main.async {
-            self.passwordTextField.isSecureTextEntry = false
-            self.labelText.text = self.bruteForce.password
-            self.activityIndicator.stopAnimating()
-            self.generatePasswordButton.isEnabled = true
-            
-            print(self.bruteForce.password)
-        }
-    }
+    //MARK: - Methods
     
-    func createBrute() {
+    func bruteForcePrepare() {
         bruteForce.password = ""
         self.passwordTextField.isSecureTextEntry = true
         self.generatePasswordButton.isEnabled = false
         self.activityIndicator.startAnimating()
     }
-
     
-//MARK: - Constraints
+    //MARK: - Constraints
     
-    func configure() {
+    func setupHierarchy() {
+        view.addSubview(generatePasswordButton)
+        view.addSubview(changeColorButton)
+        view.addSubview(labelText)
+        view.addSubview(passwordTextField)
+        view.addSubview(activityIndicator)
+    }
+    
+    func setupLayout() {
         
         NSLayoutConstraint.activate([
             changeColorButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -151,5 +144,21 @@ class ViewController: UIViewController, UpdateInterface {
             activityIndicator.centerYAnchor.constraint(equalTo: labelText.centerYAnchor),
             activityIndicator.centerXAnchor.constraint(equalTo: labelText.centerXAnchor, constant: -50)
         ])
+    }
+}
+
+//MARK: - Extension
+
+extension ViewController: UpdateInterface {
+    
+    func updateInterface() {
+        DispatchQueue.main.async {
+            self.passwordTextField.isSecureTextEntry = false
+            self.labelText.text = self.bruteForce.password
+            self.activityIndicator.stopAnimating()
+            self.generatePasswordButton.isEnabled = true
+            
+            print(self.bruteForce.password)
+        }
     }
 }
